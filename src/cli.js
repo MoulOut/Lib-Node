@@ -2,8 +2,10 @@ import getFile from './index.js';
 import chalk from 'chalk';
 import fs from 'fs';
 import validList from './http-validation.js';
+import yargs from 'yargs';
+import {hideBin} from 'yargs/helpers';
 
-const caminho = process.argv;
+const caminho = yargs(hideBin(process.argv)).argv;
 
 async function printList(valida, result, identifier = '') {
   if (valida) {
@@ -17,8 +19,8 @@ async function printList(valida, result, identifier = '') {
 }
 
 async function textProcess(argumentos) {
-  const caminho = argumentos[2];
-  const valida = argumentos[3] === '--valida';
+  const caminho = argumentos._[0];
+  const valida = argumentos.valida;
   try {
     fs.lstatSync(caminho);
   } catch (error) {
@@ -39,5 +41,4 @@ async function textProcess(argumentos) {
     });
   }
 }
-
 textProcess(caminho);
