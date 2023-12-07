@@ -7,7 +7,7 @@ function linkExtractor(text) {
   const results = captures.map((capture) => ({
     [capture[1]]: capture[2],
   }));
-  return results
+  return results.length !== 0 ? results : 'não há links no arquivo';
 }
 
 function errorSolve(erro) {
@@ -18,10 +18,10 @@ async function getFile(fileOrigin) {
   try {
     const encoding = 'utf-8';
     const texto = await fs.promises.readFile(fileOrigin, encoding);
-    console.log(linkExtractor(texto));
+    return linkExtractor(texto);
   } catch (error) {
     errorSolve(error);
   }
 }
 
-getFile('./arquivos/texto.md');
+export default getFile;
